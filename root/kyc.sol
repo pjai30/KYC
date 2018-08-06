@@ -59,15 +59,22 @@ contract kyc {
     }
 
     function getBankRequests(string Uname, uint ind) public payable returns(address) {
-        uint j = 0;
+       /* uint j = 0;
         for(uint i=0;i<allRequests.length;++i) {
             if(stringsEqual(allRequests[i].uname, Uname) && j == ind && allRequests[i].isAllowed == false) {
                 return allRequests[i].bankAddress;
             }
             j ++;
         }
+        return 0x14e041521a40e32ed88b22c0f32469f5406d757a;*/
+
+        if(stringsEqual(allRequests[ind].uname, Uname)  && allRequests[ind].isAllowed == false) {
+                return allRequests[ind].bankAddress;
+        }
         return 0x14e041521a40e32ed88b22c0f32469f5406d757a;
     }
+
+
 
     function addRequest(string Uname, address bankAddress) public payable {
         for(uint i = 0; i < allRequests.length; ++ i) {
@@ -84,6 +91,7 @@ contract kyc {
             if(stringsEqual(allRequests[i].uname, Uname) && allRequests[i].bankAddress == bankAddress) {
                 if(ifallowed) {
                     allRequests[i].isAllowed = true;
+
                 } else {
                     for(uint j=i;j<allRequests.length-2; ++j) {
                         allRequests[i] = allRequests[i+1];
@@ -98,18 +106,18 @@ contract kyc {
     //   internal function to compare strings
     
     function stringsEqual(string storage _a, string memory _b) internal returns (bool) {
-		bytes storage a = bytes(_a);
-		bytes memory b = bytes(_b);
-		if (a.length != b.length)
-			return false;
-		// @todo unroll this loop
-		for (uint i = 0; i < a.length; i ++)
+        bytes storage a = bytes(_a);
+        bytes memory b = bytes(_b);
+        if (a.length != b.length)
+            return false;
+        // @todo unroll this loop
+        for (uint i = 0; i < a.length; i ++)
         {
-			if (a[i] != b[i])
-				return false;
+            if (a[i] != b[i])
+                return false;
         }
-		return true;
-	}
+        return true;
+    }
 
     //  function to check access rights of transaction request sender
 
